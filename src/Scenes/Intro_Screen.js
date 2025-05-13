@@ -45,7 +45,7 @@ class Intro extends Phaser.Scene {
         start.on('pointerup', () => {
             start.setScale(0.3);
             start.setAlpha(1);
-            this.scene.start('shooterScene');
+            this.scene.start('gameScene');
         });
         const avatar1 = this.add.image(180, 460, "animals", "chicken.png");
         avatar1.angle = -25;

@@ -1,61 +1,63 @@
-class Movement extends Phaser.Scene {
+class Game extends Phaser.Scene {
     constructor() {
-        super("shooterScene");
-
+        super("gameScene");
         this.my = {sprite: {}}
         this.bodyX = 400;
-        this.bodyY = 575;
+        this.bodyY = 545;
     }
     preload(){
         this.load.setPath("./assets/");
-        this.load.image("bullet", "effect_blast.png");
-        this.load.image("greenCharacter", "character_roundGreen.png");
+        this.load.image("back", "top-aerial-view-road-sandy-260nw-1832891947.png");
+        this.load.image("p_bullet", "Particles/flame.png");
+        this.load.atlasXML("animals", "kenney_animal-pack-redux/Spritesheet/round_nodetails.png", "kenney_animal-pack-redux/Spritesheet/round_nodetails.xml");
     }
     create(){
-        let my = this.my;
-        my.sprite.bull = this.add.sprite(this.bodyX, this.bodyY-45, "bullet");
-        my.sprite.bull.visible = false;
-        my.sprite.char = this.add.sprite(this.bodyX, this.bodyY, "greenCharacter");
-        
+        this.add.image(0, 0, "back").setOrigin(0, 0).setDisplaySize(800, 600);
+        this.char = this.add.sprite(this.bodyX, this.bodyY, "animals", "chicken.png").setScale(0.4);
+        this.bullets = [];
         this.Akey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.Dkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.Spacekey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.Spacekey.on('down', () => {
+            let bullet = this.bullets.find(b => !b.active);
+            if (bullet) {
+                bullet.setPosition(this.char.x, this.char.y - 20);
+                bullet.setScale(0.3);
+                bullet.setFlipY(true);
+                bullet.setVisible(true);
+                bullet.setActive(true);
+            } else {
+                bullet = this.add.image(this.char.x, this.char.y - 20, 'p_bullet');
+                bullet.setScale(0.3);
+                bullet.setFlipY(true);
+                bullet.setActive(true);
+                bullet.setVisible(true);
+                this.bullets.push(bullet);
+            }
+        });
     }
     update(){
-        let my = this.my;
         if(this.Akey.isDown){
-            for (let piece in my.sprite){
-                if (my.sprite.bull.visible){
-                    my.sprite.char.x -= 5;
-                } else {
-                    my.sprite[piece].x -= 10;
-                }
-                if (my.sprite[piece].x <= 18){
-                    my.sprite[piece].x = 18;
-                }
+            this.char.x -= 5;
+            if (this.char.x <= 25){
+                this.char.x = 25
             }
         }
         if(this.Dkey.isDown){
-            for (let piece in my.sprite){
-                if (my.sprite.bull.visible){
-                    my.sprite.char.x += 5;
-                } else {
-                    my.sprite[piece].x += 10;
-                }
-                if (my.sprite[piece].x >= 782){
-                    my.sprite[piece].x = 782;
-                }
+            this.char.x += 5;
+            if (this.char.x >= 775){
+                this.char.x = 775
             }
         }
-        if (this.Spacekey.isDown){
-            my.sprite.bull.visible = true;
-        }
-        if (my.sprite.bull.visible){
-            my.sprite.bull.y -= 10;
-            if (my.sprite.bull.y < 0){
-                my.sprite.bull.visible = false;
-                my.sprite.bull.y = my.sprite.char.y-45;
-                my.sprite.bull.x = my.sprite.char.x;
+        for (let bullet of this.bullets) {
+            if (bullet.active) {
+                bullet.y -= 3;
+    
+                // Deactivate when off-screen
+                if (bullet.y < 0) {
+                    bullet.setActive(false);
+                    bullet.setVisible(false);
+                }
             }
         }
     }
