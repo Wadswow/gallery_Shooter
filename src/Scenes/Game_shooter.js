@@ -1,6 +1,6 @@
 class Movement extends Phaser.Scene {
     constructor() {
-        super("movementScene");
+        super("shooterScene");
 
         this.my = {sprite: {}}
         this.bodyX = 400;
