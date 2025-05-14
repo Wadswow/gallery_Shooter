@@ -10,7 +10,7 @@ class Intro extends Phaser.Scene {
         this.load.image("chick", "Chicken-5-12-2025.png");
         this.load.image("defence", "Defence-5-12-2025.png");
         this.load.image("start", "game_buttons-removebg-preview.png");
-        this.load.atlasXML("animals", "kenney_animal-pack-redux/Spritesheet/round_nodetails.png", "kenney_animal-pack-redux/Spritesheet/round_nodetails.xml");
+        this.load.atlasXML("animals", "kenney_animal-pack-redux/Spritesheet/round.png", "kenney_animal-pack-redux/Spritesheet/round.xml");
     }
     create(){
         this.add.image(0, 0, "background").setOrigin(0, 0);
