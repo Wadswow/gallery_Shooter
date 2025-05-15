@@ -33,13 +33,13 @@ class Game extends Phaser.Scene {
     }
     preload(){
         this.load.setPath("./assets/");
-        this.load.image("back", "top-aerial-view-road-sandy-260nw-1832891947.png");
+        this.load.image("backdrop", "top-aerial-view-road-sandy-260nw-1832891947.png");
         this.load.image("p_bullet", "Particles/flame.png");
         this.load.image("e_bullet", "Particles/particle_brown.png")
     }
     create(){
         //background
-        this.add.image(0, 0, "back").setOrigin(0, 0).setDisplaySize(800, 600);
+        this.add.image(0, 0, "backdrop").setOrigin(0, 0).setDisplaySize(800, 600);
         //char and bullets
         this.char = this.add.sprite(this.bodyX, this.bodyY, "animals", "chicken.png").setScale(0.4);
         this.char.hp = this.hp['player'];
